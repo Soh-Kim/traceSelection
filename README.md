@@ -5,16 +5,17 @@
 
 ### Functions provided
 ### main functions
-**calcMarkerEff**  
+**・calcMarkerEff**  
 Function to calculate marker effect using either Ridge, Lasso, BRR, BayesB, or Bayes C. The estimated marker effect is used in calcSI function to calculate selection intensity.    
-**calcSI**:  
+
+**・calcSI**  
 Function to calculate selection intensity using pedigree, phased-genotypic data as well as estimated marker effect.
 
 ### helper functions
-**orderPed**   
+**・orderPed**   
 Function to sort pedigree information in ancestral order. The pedigree file are searched from ancestors in base population (whose parents are unknown), and individuals that can not be traced from ancestors are to be excluded.  
 
-**selectPed**    
+**・selectPed**    
 Function to extract pedigree information of target individuals. It is usefull to exclude unintenresting individuals.
 
 
