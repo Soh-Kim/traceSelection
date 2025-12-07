@@ -16,3 +16,13 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Imports: 
+    BGLR,
+    checkmate,
+    dplyr,
+    furrr,
+    future,
+    glmnet,
+    rlang,
+    stats,
+    utils
