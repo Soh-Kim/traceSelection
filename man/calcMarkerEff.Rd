@@ -7,28 +7,35 @@
 calcMarkerEff(
   Phenotype,
   Genotype,
-  type.geno = "phased",
+  phased = TRUE,
   Model = "Ridge",
   Effect = "A",
   ...
 )
 }
 \arguments{
-\item{Phenotype}{a}
+\item{Phenotype}{A matrix of phenotypic data. Rownames must contain individual ID but rownames is not necessarily required. The missing value should be coded as NA.}
 
-\item{Genotype}{b}
+\item{Genotype}{A matrix of genotypic data. Both phased and unphased genotypic data are allowed. Rownames are individual ID, and colnames are marker ID (number is not allowed). In case of phased data, each cell should contain two numbers seperated by a vertical var (e.g. 1|0), and in case of unphased genotype, each cell should be either 0, 1, or 2.}
 
-\item{type.geno}{description}
+\item{phased}{A logical value indicating the genotypic data give is phased or unphased (TRUE corresponds to phased). The devault value is TRUE.}
 
-\item{Model}{description}
+\item{Model}{A character string specifying the model to apply. It should be either "Ridge", "Lasso", "BRR" (Bayesian Ridge Redgression), "BayesB", or "BayesC". The former two model is implemented by glmnet and the latter three models are implemented by BGLR.}
 
-\item{Effect}{description}
+\item{Effect}{A character string specifying marker effect applied. It should be either "A" or "AD". "A" corresponds to the model with only additive effect, and "AD" corresponds to the model with both additive and dominance effect.}
 
-\item{...}{description}
+\item{...}{Additional parameters for cv.glmnet glmnet, and BGLR can be specified here.}
 }
 \value{
 A data frame of pedigree information, sorted in ancestral order.
+\describe{
+\item{model}{Model applied. Either "Ridge", "Lasso", "BRR", "BayesB", or "BayesC" }
+\item{coefDetermin}{Coefficient of determination}
+\item{rFit}{Pearson's correlation coefficient between phenotype and estimated genotypic effect}
+\item{mseFit}{Mean square error}
+\item{mEffect}{A list of length two. One contains the additive marker effect, and another contains the dominance marker effect}
+}
 }
 \description{
-\code{calcMarkerEff}  Calculate marker effects from either "Ridge", "Lasso", "BRR", "BayesB", or "BayseC". Useder can also choose the effects of marker to be included (additive only or additive + dominance ).
+\code{calcMarkerEff}  Calculate marker effects from either "Ridge", "Lasso", "BRR", "BayesB", or "BayesC". Useder can also choose the effects of marker to be included (additive only or additive + dominance ).
 }

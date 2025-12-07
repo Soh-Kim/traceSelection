@@ -363,28 +363,36 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
 
 
 #' @title Calculate marker effects
-#' @description \code{calcMarkerEff}  Calculate marker effects from either "Ridge", "Lasso", "BRR", "BayesB", or "BayseC". Useder can also choose the effects of marker to be included (additive only or additive + dominance ).
+#' @description \code{calcMarkerEff}  Calculate marker effects from either "Ridge", "Lasso", "BRR", "BayesB", or "BayesC". Useder can also choose the effects of marker to be included (additive only or additive + dominance ).
 #'
 #' @importFrom checkmate assert_subset
 #' @importFrom BGLR BGLR
 #' @importFrom glmnet glmnet cv.glmnet
 #' @importFrom stats complete.cases cor
-#' @param Phenotype a
-#' @param Genotype b
-#' @param type.geno description
-#' @param Model description
-#' @param Effect description
-#' @param ... description
+#' @param Phenotype A matrix of phenotypic data. Rownames must contain individual ID but rownames is not necessarily required. The missing value should be coded as NA.
+#' @param Genotype A matrix of genotypic data. Both phased and unphased genotypic data are allowed. Rownames are individual ID, and colnames are marker ID (number is not allowed). In case of phased data, each cell should contain two numbers seperated by a vertical var (e.g. 1|0), and in case of unphased genotype, each cell should be either 0, 1, or 2.
+#' @param phased A logical value indicating the genotypic data give is phased or unphased (TRUE corresponds to phased). The devault value is TRUE.
+#' @param Model A character string specifying the model to apply. It should be either "Ridge", "Lasso", "BRR" (Bayesian Ridge Redgression), "BayesB", or "BayesC". The former two model is implemented by glmnet and the latter three models are implemented by BGLR.
+#' @param Effect A character string specifying marker effect applied. It should be either "A" or "AD". "A" corresponds to the model with only additive effect, and "AD" corresponds to the model with both additive and dominance effect.
+#' @param ... Additional parameters for cv.glmnet glmnet, and BGLR can be specified here.
 #' @return A data frame of pedigree information, sorted in ancestral order.
+#' \describe{
+#' \item{model}{Model applied. Either "Ridge", "Lasso", "BRR", "BayesB", or "BayesC" }
+#' \item{coefDetermin}{Coefficient of determination}
+#' \item{rFit}{Pearson's correlation coefficient between phenotype and estimated genotypic effect}
+#' \item{mseFit}{Mean square error}
+#' \item{mEffect}{A list of length two. One contains the additive marker effect, and another contains the dominance marker effect}
+#' }
 #' @export
 
-calcMarkerEff <- function( Phenotype, Genotype, type.geno = "phased", Model = "Ridge", Effect = "A",... ){
+calcMarkerEff <- function( Phenotype, Genotype, phased = TRUE, Model = "Ridge", Effect = "A",... ){
 
   assert_matrix( Phenotype )
   assert_matrix( Genotype )
   assert_character( rownames(Phenotype) )
   assert_character( rownames(Genotype) )
-  assert_subset( Model, c("Ridge", "Lasso", "BRR", "BayseB", "BayseC") )
+  assert_character( colnames(Genotype) )
+  assert_subset( Model, c("Ridge", "Lasso", "BRR", "BayesB", "BayesC") )
   assert_subset( Effect, c("A", "AD"))
 
   dots <- list( ... )
@@ -394,7 +402,7 @@ calcMarkerEff <- function( Phenotype, Genotype, type.geno = "phased", Model = "R
 
   Phenotype <- Phenotype[complete.cases(Phenotype), , drop = FALSE]
 
-  if( type.geno == "phased" ){
+  if( phased ){
     genome <- matrix( sapply( Genotype, function( x ) {
       if( is.na(x) ){
         return( x )
@@ -428,7 +436,7 @@ calcMarkerEff <- function( Phenotype, Genotype, type.geno = "phased", Model = "R
     param <- 0
   } else if ( Model == "Lasso" ){
     param <- 1
-  } else if ( Model %in% c( "BRR", "BayseB", "BayseC" ) ){
+  } else if ( Model %in% c( "BRR", "BayesB", "BayesC" ) ){
     param <- Model
   }
 
@@ -441,7 +449,7 @@ calcMarkerEff <- function( Phenotype, Genotype, type.geno = "phased", Model = "R
     result <- do.call( glmnet,
                        c( list(x = genoSelectAll, y = phenoSelect, lambda = lambda, alpha = param), args2 )  )
     b <- as.matrix( result$beta )
-  } else if( Model %in% c( "BRR", "BayseB", "BayseC" ) ){
+  } else if( Model %in% c( "BRR", "BayesB", "BayesC" ) ){
     args3 <- dots[ names(dots) %in% names(formals(BGLR)) ]
     if( is.null( args3[["saveAt"]] ) ){
       tmpdir <- tempdir()
