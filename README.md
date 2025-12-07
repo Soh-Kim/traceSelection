@@ -68,8 +68,27 @@ Honeycrisp      "1|1" "0|1" "0|1" "1|0" "1|0" "1|1"
 Now, marker effect is easily calculated by calcMarkerEff function as follows;
 
 ```r
-result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "A" )
+> result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "A" )
+
+> result$coefDetermin
+> result$rFit
+> result$mseFit
+> result$mEffect$Add
+> result$mEffect$Dom
 ```
 
+The different model can be easily implemented by changing the parameter of Model
+
+```r
+> result.Lasso <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Lasso", Effect = "A" )
+> result.BRR <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "BRR", Effect = "A" )
+```
+
+Not only additive effect but also dominance effect is calculated if parameter of Effect is replaced by "AD" (abbreviation of "Additive and Dominance"").
+```r
+> result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "AD" )
+> result$mEffect$Add
+> result$mEffect$Dom
+```
 
 ## Reference
