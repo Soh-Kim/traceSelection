@@ -91,4 +91,6 @@ Not only additive effect but also dominance effect is calculated if parameter of
 > result$mEffect$Dom
 ```
 
+### calcSI function
+
 ## Reference
