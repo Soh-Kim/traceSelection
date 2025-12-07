@@ -3,7 +3,6 @@
 
 **traceSelection** is a R package specializes to calculate selection intensity for each individual, using pedigree and genotypic, and phenotypic information. This package is especially suitable for breeding data or germplasm collection data, where estimating selection intensity that  each individual underwent will provide with valueble information. The package has two main functions to calculate selection intensity and two helper functions, which is beneficial in handling pedigree file. 
 
-### Functions provided
 ### main functions
 **・calcMarkerEff**  
 Function to calculate marker effect using either Ridge, Lasso, BRR, BayesB, or Bayes C. The estimated marker effect is used in calcSI function to calculate selection intensity.    
@@ -21,14 +20,14 @@ Function to extract pedigree information of target individuals. It is usefull to
 
 ## Installation
 
-You can install the development version of traceSelection from [GitHub](https://github.com/) with:
+You can install the development version of traceSelection from [GitHub](https://github.com/) by two different ways:
 
 **install using R package "pak"**
 ``` r
 # if pak is not installed...
 install.packages("pak")
 
-pak::pak("Soh-Kim/selectTrace")
+pak::pak("Soh-Kim/traceSeletion")
 ```
 
 **install using R package "devtools"**
@@ -36,16 +35,41 @@ pak::pak("Soh-Kim/selectTrace")
 # if devtools is not installed...
 install.packages("devtools")
 
-devtools::install_github("Soh-Kim/selectTrace")
+devtools::install_github("Soh-Kim/traceSeletion")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+### calcMarkerEff function
+Suppose we have apply phenotypic data (color of fruit skin) and phased-genotypic data, labeled as "PhenoCol" and "genotype", respectively. 
 
 ``` r
-library(traceSelection)
-## basic example code
+> head(PhenoCol)
+                FruitColor
+GoldenDelicious       5.60
+GrannySmith           6.24
+Fuji                    NA
+RedDelicious          7.26
+PinkLady             13.32
+Honeycrisp           18.56
 ```
+
+```r
+> genotype[1:6,1:6]
+                m1001 m1003 m1021 m1042 m1103 m1256
+GoldenDelicious "1|1" "0|1" "1|1" "1|1" "1|0" "0|1"
+GrannySmith     "1|0" "0|1" "1|1" "1|0" "1|0" "1|0"
+Fuji            "0|0" "0|1" "0|1" "1|0" "1|0" "0|1"
+RedDelicious    "0|0" "0|1" "1|0" "0|0" "0|1" "1|0"
+PinkLady        "0|0" "0|0" "1|1" "1|0" "1|1" "0|0"
+Honeycrisp      "1|1" "0|1" "0|1" "1|0" "1|0" "1|1"
+```
+
+Now, marker effect is easily calculated by calcMarkerEff function as follows;
+
+```r
+result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "A" )
+```
+
 
 ## Reference
