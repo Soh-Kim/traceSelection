@@ -287,11 +287,11 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
           gEffect_mid.t <- gEffect_mid + gEffect_mid.d
           gEffect_o.t <- gEffect_o + gEffect_o.d
 
-          varCovSelect1 <- varCovList[[chr]]$varCov1[ idx, idx ]
-          varCovSelect2 <- varCovList[[chr]]$varCov2[ idx, idx ]
-          varCovSelect3 <- varCovList[[chr]]$varCov3[ idx, idx ]
-          varCovSelect_s <- varCovList[[chr]]$varCov_s[ idx, idx ]
-          varCovSelect_p <- varCovList[[chr]]$varCov_p[ idx, idx ]
+          varCovSelect1 <- varCovList[[chr]]$varCov1
+          varCovSelect2 <- varCovList[[chr]]$varCov2
+          varCovSelect3 <- varCovList[[chr]]$varCov3
+          varCovSelect_s <- varCovList[[chr]]$varCov_s
+          varCovSelect_p <- varCovList[[chr]]$varCov_p
 
           Vga <- t( mEffectAdd ) %*% varCovSelect1 %*% mEffectAdd
           Vgd <- t( mEffectDom ) %*% ( varCovSelect1 + 4 * varCovSelect2 - 4 * varCovSelect3 ) %*% mEffectDom
