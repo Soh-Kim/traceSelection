@@ -158,13 +158,13 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
 
   assert_subset( colnames(  genoPhased ), Marker$MarkerID )
 
-  if( all( Marker$MarkerEff.d ) == 0 ){
+  if( all( Marker$MarkerEff.d == 0 ) ){
     Model <- "Add"
   } else {
     Model <- "Dom"
   }
 
-  genoPhased <- genoPhased[ , match( Marker$MarkerID, rownames( genoPhased ) ) ]
+  genoPhased <- genoPhased[ , match( Marker$MarkerID, colnames( genoPhased ) ) ]
 
   crossCache <- list()
 
