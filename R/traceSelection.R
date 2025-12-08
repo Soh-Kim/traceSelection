@@ -268,8 +268,8 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
         vgListNew <- Reduce( `+`, mclapply( as.numeric(names(chrList)), function(chr){
           idx <- chrList[[chr]]
 
-          mEffectAdd <- Marker$MarkerEff.a[ idx, ]
-          mEffectDom <- Marker$MarkerEff.a[ idx, ]
+          mEffectAdd <- Marker$MarkerEff.a[ idx ]
+          mEffectDom <- Marker$MarkerEff.a[ idx ]
           mEffectSum <- mEffectAdd + mEffectDom
 
           gEffect_s <- sDf[ idx, ]$zygote %*% mEffectAdd
