@@ -33,6 +33,7 @@ A data frame of pedigree information, sorted in ancestral order.
 \item{coefDetermin}{Coefficient of determination}
 \item{rFit}{Pearson's correlation coefficient between phenotype and estimated genotypic effect}
 \item{mseFit}{Mean square error}
+\item{yEst}{Estimated genetic effect}
 \item{mEffect}{A list of length two. One contains the additive marker effect, and another contains the dominance marker effect}
 }
 }

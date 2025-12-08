@@ -116,8 +116,7 @@ selectPed <- function( ped, nameList, missingCode = NA ){
 #' @description \code{calcSI}  Calculate selection intensity for all individuals
 #'
 #' @importFrom checkmate assert_data_frame assert_set_equal assert_character assert_numeric assert_matrix assert_subset
-#' @importFrom furrr future_map
-#' @importFrom future plan availableCores multisession
+#' @importFrom parallel mclapply detectCores
 #' @importFrom stats setNames
 #' @param Marker A data frame with 5 columns; MarkerID, Chr, Map, MarkerEff.a, and MarkerEff.d. MarkerID specifies the ID of each marker, and Chr and Map are corresponding to the chromosome number and map position, respectively. MarkerEff.a and MarkerEff.d are the effect of each markers calculated by genomic prediction model. When not considering dominance effect, please fill MarkerEff.d column with 0.
 #' @param Pedigree A data frame of pedigree information, comprised of three columns: IID, Seed, Pollen. IID column corresponds the individual name, and Seed and Pollen columns correspond to the mother and father name respectively. The idividuals with unknown parents are allowed, and unknown should be assigned a clear name (e.g. NA, "0", "unknown).
@@ -177,10 +176,13 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
     Summary[[i]] <- list()
   }
 
-  if( is.null( nCore ) ){
-    nCore <- max( 1L, availableCores() - 2L )
+  OS <- Sys.info()[1]
+  if( OS == "Windows" ){
+    warning("Parallel calculation is not fully supported on Windows. nCore has been set to 1")
+    nCore <- 1
+  } else if( is.null(nCore) ){
+    nCore <- max( 1L, detectCores() - 2L )
   }
-  plan(multisession, workers = nCore)
 
   for( i in 1:nIndiv ){
 
@@ -223,7 +225,7 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
           return( comb )
         } )
 
-        varCovList <- future_map( as.numeric(names(chrList)), function(chr){
+        varCovList <- mclapply( as.numeric(names(chrList)), function(chr){
 
           calcCovMat_OneChr = function( idx, comb, map, SNPs) {
             i <- idx[comb[, 1]]
@@ -261,9 +263,9 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
           dimnames( varCov_s ) <- dimnames( varCov_p ) <- dimnames( varCov1 ) <-  dimnames( varCov2 ) <- dimnames( varCov3 ) <- markerName
 
           return( list( varCov_s = varCov_s, varCov_p = varCov_p, varCov1 = varCov1, varCov2 = varCov2, varCov3 = varCov3 ) )
-        } )
+        }, mc.cores = nCore )
 
-        vgListNew <- Reduce( `+`, future_map( as.numeric(names(chrList)), function(chr){
+        vgListNew <- Reduce( `+`, mclapply( as.numeric(names(chrList)), function(chr){
           idx <- chrList[[chr]]
 
           mEffectAdd <- Marker$MarkerEff.a[ idx, ]
@@ -303,7 +305,7 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
           Vg_p.t <- t( mEffectSum ) %*% varCovSelect_p %*% mEffectSum
 
           return( c( gEffect_s, gEffect_p, gEffect_mid, gEffect_o, gEffect_s.d, gEffect_p.d, gEffect_mid.d, gEffect_o.d, gEffect_s.t, gEffect_p.t, gEffect_mid.t, gEffect_o.t, Vga, Vgd, Vgad, Vg, Vg_s, Vg_s.t, Vg_p, Vg_p.t ) )
-        } )
+        }, mc.cores = nCore )
         )
         crossCache[[key]] <- vgListNew
 

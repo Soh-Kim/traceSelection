@@ -20,9 +20,8 @@ Imports:
     BGLR,
     checkmate,
     dplyr,
-    furrr,
-    future,
     glmnet,
+    parallel,
     rlang,
     stats,
     utils
