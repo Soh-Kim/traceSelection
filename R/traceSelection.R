@@ -308,6 +308,7 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
         }, mc.cores = nCore )
         )
         crossCache[[key]] <- vgListNew
+        vgList <- vgListNew
 
       } else {
 
