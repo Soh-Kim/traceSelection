@@ -70,11 +70,36 @@ Now, marker effect is easily calculated by calcMarkerEff function as follows;
 ```r
 > result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "A" )
 
+> result$model
+[1] "Ridge"
 > result$coefDetermin
+[1] 0.5799931
 > result$rFit
+[1] 0.7793479
 > result$mseFit
-> result$mEffect$Add
-> result$mEffect$Dom
+[1] 0.4980829
+
+> head( result$yEst )
+    GoldenDelicious         GrannySmith                Fuji        RedDelicious            PinkLady          Honeycrisp 
+         -0.4366007           0.0471181          -0.2775965          -0.4318490          -0.6626601          -0.3674068
+
+> head( result$mEffect$Add )
+                      s0
+m1001       0.0082345564
+m1003      -0.0019489414
+m1021      -0.0005759275
+m1042       0.0084794079
+m1103       0.0099916246
+m1256       0.0090663859
+
+> head( result$mEffect$Dom )
+            s0
+m1001       0
+m1003       0
+m1021       0
+m1042       0
+m1103       0
+m1256       0
 ```
 
 The different model can be easily implemented by changing the parameter of Model
@@ -87,8 +112,24 @@ The different model can be easily implemented by changing the parameter of Model
 Not only additive effect but also dominance effect is calculated if parameter of Effect is replaced by "AD" (abbreviation of "Additive and Dominance"").
 ```r
 > result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "AD" )
-> result$mEffect$Add
-> result$mEffect$Dom
+
+> head( result$mEffect$Add )
+                      s0
+m1001       0.002644945
+m1003      -0.002283451
+m1021      -0.001762202
+m1042       0.005706774
+m1103       0.006405869
+m1256       0.005625770
+
+> head( result$mEffect$Dom )
+                      s0
+m1001       0.009962970
+m1003       0.005466636
+m1021       0.006012601
+m1042       0.001665153
+m1103       0.001018533
+m1256      -0.001178075
 ```
 
 ### calcSI function
