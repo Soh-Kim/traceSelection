@@ -381,6 +381,7 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
 #' \item{coefDetermin}{Coefficient of determination}
 #' \item{rFit}{Pearson's correlation coefficient between phenotype and estimated genotypic effect}
 #' \item{mseFit}{Mean square error}
+#' \item{yEst}{Estimated genetic effect}
 #' \item{mEffect}{A list of length two. One contains the additive marker effect, and another contains the dominance marker effect}
 #' }
 #' @export
@@ -397,8 +398,8 @@ calcMarkerEff <- function( Phenotype, Genotype, phased = TRUE, Model = "Ridge", 
 
   dots <- list( ... )
 
-  MarkerEstim <- vector( "list", 5 )
-  names( MarkerEstim ) <- c( "model", "coefDetermin", "rFit", "mseFit", "mEffect" )
+  MarkerEstim <- vector( "list", 6 )
+  names( MarkerEstim ) <- c( "model", "coefDetermin", "rFit", "mseFit", "yEst", "mEffect" )
 
   Phenotype <- Phenotype[complete.cases(Phenotype), , drop = FALSE]
 
@@ -449,6 +450,7 @@ calcMarkerEff <- function( Phenotype, Genotype, phased = TRUE, Model = "Ridge", 
     result <- do.call( glmnet,
                        c( list(x = genoSelectAll, y = phenoSelect, lambda = lambda, alpha = param), args2 )  )
     b <- as.matrix( result$beta )
+    mu <- result$a0
   } else if( Model %in% c( "BRR", "BayesB", "BayesC" ) ){
     args3 <- dots[ names(dots) %in% names(formals(BGLR)) ]
     if( is.null( args3[["saveAt"]] ) ){
@@ -459,13 +461,16 @@ calcMarkerEff <- function( Phenotype, Genotype, phased = TRUE, Model = "Ridge", 
     result <- do.call( BGLR,
                        c( list( y = phenoSelect, ETA = Eta ), args3 ) )
     b <- as.matrix( result$ETA[[1]]$b )
+    mu <- result$ETA[[1]]$S0
   }
 
-  yEst <- as.vector( genoSelectAll %*% b )
+  yEst <- as.vector( genoSelectAll %*% b ) + mu
+  names( yEst ) <- rownames( genoSelectAdd )
   MarkerEstim$model <- Model
   MarkerEstim$coefDetermin <- 1 - sum(( phenoSelect - yEst)^2) / sum((phenoSelect - mean(phenoSelect))^2)
   MarkerEstim$rFit <- cor( yEst, phenoSelect )
   MarkerEstim$mseFit <- mean( ( yEst - phenoSelect )^2 )
+  MarkerEstim$yEst <- yEst
   MarkerEstim$mEffect <- vector( "list", 2 )
   if( Effect == "AD" ){
     MarkerEstim$mEffect$Add <- b[ 1:(nrow(b)/2), , drop = FALSE ]

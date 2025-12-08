@@ -93,4 +93,6 @@ Not only additive effect but also dominance effect is calculated if parameter of
 
 ### calcSI function
 
+### Visualization (Example)
+
 ## Reference
