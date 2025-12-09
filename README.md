@@ -123,7 +123,7 @@ m1103       0.006405869
 m1256       0.005625770
 
 > head( result$mEffect$Dom )
-                      s0
+                     s0
 m1001       0.009962970
 m1003       0.005466636
 m1021       0.006012601
@@ -167,7 +167,8 @@ result <- calcSI( Marker = mark, Pedigree = ped, genoPhased = genome, nCore = 1 
 Here, nCore indicate the number of cores used in the calculation, and can be specified as you want.
 
 The output is slightly different whether dominance effect was considered or not.
-When dominance effect was considered (MarkerEff.d!=0), the output is a list containing tree element; Add, Dom, and Tot, and when dominance effect was not considered, the output is a list containing one element; Tot. Regardless of which element, each element contains data frame with 6 column, like this; 
+When dominance effect was considered (MarkerEff.d!=0), the output is a list containing tree element; Add, Dom, and Tot, and when dominance effect was not considered, the output is a list containing one element; Tot.  
+Regardless of which element, each element contains data frame with 6 column, like this; 
 ```r
 > head( result$Tot )
                   gEffect_s gEffect_p gEffect_mid  gEffect_o       Vg_s       Vg_p         Vg Select_Intens
@@ -178,7 +179,7 @@ GoldenDelicious          NA        NA          NA         NA         NA         
        PinkLady          NA        NA          NA         NA         NA         NA         NA            NA
             JS5  0.09927577 -0.954009  -0.3704914 -0.3169922 0.04111576 0.05608076 0.02607191     0.3313301
 ```
-Here, each row corresponds to the information of each individual, and gEffect_s, gEffect_p are the genetic effect of seed and pollen parents, respectively. gEffect_mid is the expected value of progeny distribution, and gEffect_o is the genetic effect of the target individual. In addition, Vg is the variance of progeny distribution, and Vg_s, and Vg_p are the variance of progeny distributions attributable to seed and pollen parents, respectively. Finally, Select_Intens is the selection intensity. Because, these quantities are calculated based on the genome information of both target individual, and its parents, the row corresponding to the individuals with unknown parent becomes NA.
+Here, each row corresponds to the information of each individual, and gEffect_s, gEffect_p are the genetic effect of seed and pollen parents, respectively. gEffect_mid is the expected value of progeny distribution, and gEffect_o is the genetic effect of the target individual. In addition, Vg is the variance of progeny distribution, and Vg_s, and Vg_p are the variance of progeny distributions attributable to seed and pollen parents, respectively. Finally, Select_Intens is the selection intensity. Because, these quantities are calculated based on the genome information of both target individual, and its parents, the row corresponding to the individuals with unknown parent becomes NA.  
 Basically, the Tot is the result of all effects included, and Add and Dom  are the results attributable to additive and dominance effects, respectively. For the detail of this partition, please referes to the paper.
 
 ### <ins>Visualization (Example)</ins>
