@@ -40,7 +40,7 @@ devtools::install_github("Soh-Kim/traceSeletion")
 
 ## Example
 
-### <u>calcMarkerEff function<\u>
+### <ins>calcMarkerEff function</ins>
 Suppose we have apply phenotypic data (color of fruit skin) and phased-genotypic data, labeled as "PhenoCol" and "genotype", respectively. 
 
 ``` r
@@ -132,8 +132,8 @@ m1103       0.001018533
 m1256      -0.001178075
 ```
 
-### <u>calcSI function</u>
+### <ins>calcSI function</ins>
 
-### <u>Visualization (Example)</u>
+### <ins>Visualization (Example)</ins>
 
 ## Reference
