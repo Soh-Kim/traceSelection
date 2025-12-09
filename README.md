@@ -101,9 +101,9 @@ m1042       0
 m1103       0
 m1256       0
 ```
+When "A" is applied to argument Effect, all the marker effects for dominance (result$mEffect$Dom) are estimated to be 0.
 
 The different model can be easily implemented by changing the parameter of Model
-
 ```r
 > result.Lasso <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Lasso", Effect = "A" )
 > result.BRR <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "BRR", Effect = "A" )
@@ -133,6 +133,51 @@ m1256      -0.001178075
 ```
 
 ### <ins>calcSI function</ins>
+
+In order to calculate selection intensity, we have to prepare tree different objects.
+One is the phased genotype matrix, which is exactly same as above one (genotype).
+Another one is the matrix summarizing chromosome, position, additive effect, and dominance effect, which looks like this;
+```r
+> head(mark)
+  MarkerID Chr   Map  MarkerEff.a  MarkerEff.d
+1    m1001   1 0.000  0.004766140  0.013356718
+2    m1003   1 0.000 -0.002847033  0.007843717
+3    m1021   1 0.000 -0.001987517  0.008748732
+4    m1042   1 0.000  0.006850184  0.002274927
+5    m1103   1 2.782  0.007411546  0.001073315
+6    m1256   1 4.568  0.006699810 -0.001434129
+```
+
+Finally, pedigree information is required. For the unknown parents, any coding is acceptable including NA, "0", "unknown", and so on. 
+```r
+> head(ped)
+              IID        Seed        Pollen
+1 GoldenDelicious        <NA>          <NA>
+2     GrannySmith        <NA>          <NA>
+3            Fuji        <NA>          <NA>
+4    RedDelicious        <NA>          <NA>
+5        PinkLady        <NA>          <NA>
+6             JS5        Fuji   GrannySmith
+```
+
+Together with these object, the selection intensity is calculated with function "calcSI" as follows;
+```r
+result <- calcSI( Marker = mark, Pedigree = ped, genoPhased = genome, nCore = 1 )
+```
+Here, nCore indicate the number of cores used in the calculation, and can be specified as you want.
+
+The output is a list containing tree element; Add, Dom, and Tot, and each element contains data frame like this; 
+```
+> head( result$Tot )
+                  gEffect_s gEffect_p gEffect_mid  gEffect_o       Vg_s       Vg_p         Vg Select_Intens
+GoldenDelicious          NA        NA          NA         NA         NA         NA         NA            NA
+    GrannySmith          NA        NA          NA         NA         NA         NA         NA            NA
+           Fuji          NA        NA          NA         NA         NA         NA         NA            NA
+   RedDelicious          NA        NA          NA         NA         NA         NA         NA            NA
+       PinkLady          NA        NA          NA         NA         NA         NA         NA            NA
+            JS5  0.09927577 -0.954009  -0.3704914 -0.3169922 0.04111576 0.05608076 0.02607191     0.3313301
+```
+
 
 ### <ins>Visualization (Example)</ins>
 
