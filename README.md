@@ -181,7 +181,7 @@ GoldenDelicious          NA        NA          NA         NA         NA         
 ```
 Here, each row corresponds to the information of each individual, and gEffect_s, gEffect_p are the genetic effect of seed and pollen parents, respectively. gEffect_mid is the expected value of progeny distribution, and gEffect_o is the genetic effect of the target individual. In addition, Vg is the variance of progeny distribution, and Vg_s, and Vg_p are the variance of progeny distributions attributable to seed and pollen parents, respectively. Finally, Select_Intens is the selection intensity.  
 Because, these quantities are calculated based on the genome information of both target individual, and its parents, the row corresponding to the individuals with unknown parent becomes NA.  
-Basically, the Tot is the result of all effects included, and Add and Dom  are the results attributable to additive and dominance effects, respectively. For the detail of this partition, please referes to the paper.
+Basically, the Tot is the result of all effects included, and Add and Dom are the results attributable to additive and dominance effects, respectively. More specifically, Add is the result obtained by setting all dominance effects to be zero, and in the same way, Dom is the result obtained by setting all additive effects to be zero. Because the variance of pedigree distribution in Dom (i.e. Vg) can not be partitioned into maternal and paternal contribution, Vg_s and Vg_p in Dom are always zero. 
 
 ### <ins>Visualization (Example)</ins>
 
