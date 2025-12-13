@@ -121,7 +121,7 @@ selectPed <- function( ped, nameList, missingCode = NA ){
 #' @param Marker A data frame with 5 columns; MarkerID, Chr, Map, MarkerEff.a, and MarkerEff.d. MarkerID specifies the ID of each marker, and Chr and Map are corresponding to the chromosome number and map position, respectively. MarkerEff.a and MarkerEff.d are the effect of each markers calculated by genomic prediction model. When not considering dominance effect, please fill MarkerEff.d column with 0.
 #' @param Pedigree A data frame of pedigree information, comprised of three columns: IID, Seed, Pollen. IID column corresponds the individual name, and Seed and Pollen columns correspond to the mother and father name respectively. The idividuals with unknown parents are allowed, and unknown should be assigned a clear name (e.g. NA, "0", "unknown).
 #' @param genoPhased A matrix of phased genotypic data. Row and columns are corresponding to individuals and markers, respectively. Rownames must be a subset of IID in Pedigree, and Colnames must be a subset of MarkerID in Marker. Each cell must contain two numbers separated by a vertical bar (e.g. "0|1"). In this package, the left number are regarded as mathernal allele, and the right as paternal allele.
-#' @param nCore Integer indicating the number of cores used for parallel calculation. If not specified, the maximum number of cores minus two is used.
+#' @param nCore Integer indicating the number of cores used for parallel calculation. If not specified, only one core is used to calculate.
 #' @return A list of length three. First element of the list contains the result attributed to the additive effect, and second and third are the result attributed to the dominance and total effects, respectively. When considering only additive effect, length of the list become one. The result in each element are summarized in data frame and has following eight columns;
 #' \describe{
 #' \item{gEffect_s}{Genetic effect of seed parent}
@@ -177,11 +177,13 @@ calcSI <- function( Marker, Pedigree, genoPhased, nCore = NULL ){
   }
 
   OS <- Sys.info()[1]
-  if( OS == "Windows" ){
-    warning("Parallel calculation is not fully supported on Windows. nCore has been set to 1")
-    nCore <- 1
-  } else if( is.null(nCore) ){
-    nCore <- max( 1L, detectCores() - 2L )
+  if( ! is.null( nCore ) ){
+    if( OS =="Windows" & nCore > 1L ){
+      warning("Parallel calculation is not fully supported on Windows. nCore has been set to 1")
+      nCore <- 1L
+    }
+  } else if( is.null( nCore ) ) {
+    nCore <- 1L
   }
 
   for( i in 1:nIndiv ){
