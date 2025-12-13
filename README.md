@@ -184,6 +184,8 @@ Because, these quantities are calculated based on the genome information of both
   
 Basically, the Tot is the result of all effects included, and Add and Dom are the results attributable to additive and dominance effects, respectively. More specifically, Add is the result obtained by setting all dominance effects to be zero, and in the same way, Dom is the result obtained by setting all additive effects to be zero. Because the variance of pedigree distribution in Dom (i.e. Vg) can not be partitioned into maternal and paternal contribution, Vg_s and Vg_p in Dom are always zero. 
 
+<img src="image/Github1.png" width= "400" >  
+
 ### <ins>calcSIadd function</ins>
 additive dominance decomposition
 ### <ins>calcSIcd function</ins>
@@ -191,7 +193,6 @@ choromosome decomposition
 ### <ins>calcSImt function</ins>
 multi trait
 ### <ins>Visualization (Example)</ins>
-![Distribution of Selection Intensity](image/Github2.png)  
-<img src="image/Github2.png" width= "200" >  
+<img src="image/Github2.png" width= "400" >  
 
 ## Reference
