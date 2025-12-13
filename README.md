@@ -191,6 +191,7 @@ choromosome decomposition
 ### <ins>calcSImt function</ins>
 multi trait
 ### <ins>Visualization (Example)</ins>
-![Distribution of Selection Intensity](image/Github2.png)
-<img src="image/Github2.png width= "200" >
+![Distribution of Selection Intensity](image/Github2.png)  
+<img src="image/Github2.png" width= "200" >  
+
 ## Reference
