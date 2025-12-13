@@ -186,13 +186,15 @@ Basically, the Tot is the result of all effects included, and Add and Dom are th
 
 <img src="image/Github1.png" width= "400" >  
 
+#### Visualization and Analysis (Example)
+The estimated selection intensity can be used in several ways to analyse the signature of selection that each cultivar underwent. For instance if we compare the distribution of selection intensity between un-selected individuals and cultivar, we can see what kind of individuals were prefered in the breeding program. Fig 1 is the distribution of selection intensity for acidity and brix, and those of breeding population (un-selected individuals) and cultivars were distinguished by different colors. Here we can confirm that low-acidity and high-sugar individuals were selected in the breeding program.
+<img src="image/Github2.png" width= "400" >  
+Fig1. Distribution of selection intensity for Acidity and Brix in Breeding populations (black) and Cultivars (red).
 ### <ins>calcSIadd function</ins>
 additive dominance decomposition
 ### <ins>calcSIcd function</ins>
 choromosome decomposition
 ### <ins>calcSImt function</ins>
 multi trait
-### <ins>Visualization (Example)</ins>
-<img src="image/Github2.png" width= "400" >  
 
 ## Reference
