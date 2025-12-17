@@ -93,7 +93,7 @@ m1103       0.0099916246
 m1256       0.0090663859
 
 > head( result$mEffect$Dom )
-            s0
+           s0
 m1001       0
 m1003       0
 m1021       0
@@ -114,7 +114,7 @@ Not only additive effect but also dominance effect is calculated if parameter of
 > result <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Ridge", Effect = "AD" )
 
 > head( result$mEffect$Add )
-                      s0
+                     s0
 m1001       0.002644945
 m1003      -0.002283451
 m1021      -0.001762202
@@ -187,7 +187,7 @@ Basically, the Tot is the result of all effects included, and Add and Dom are th
 <img src="image/Github1.png" width= "400" >  
 Fig1. Decomposition of the variance of progeny distribution. This result can be used to clarify the source of the variance.
 
-#### Visualization and Analysis (Example)
+#### <ins>Visualization and Analysis (Example)</ins>
 The estimated selection intensity can be used in several ways to analyse the signature of selection that each cultivar underwent. For instance if we compare the distribution of selection intensity between un-selected individuals and cultivar, we can see what kind of individuals were prefered in the breeding program. Fig2 is the distribution of selection intensity for acidity and brix, and those of breeding population (un-selected individuals) and cultivars were distinguished by different colors. Here we can confirm that low-acidity and high-sugar individuals were selected in the breeding program.  
   
 <img src="image/Github2.png" width= "400" >  
