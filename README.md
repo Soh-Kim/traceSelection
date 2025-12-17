@@ -101,9 +101,9 @@ m1042       0
 m1103       0
 m1256       0
 ```
-When "A" is applied to argument Effect, all the marker effects for dominance (result$mEffect$Dom) are estimated to be 0.
+When "A" is applied to argument "Effect"", all the marker effects for dominance (result$mEffect$Dom) are estimated to be 0.
 
-The different model can be easily implemented by changing the parameter of Model
+The different model can be easily implemented by changing the value of the argument "Model""
 ```r
 > result.Lasso <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "Lasso", Effect = "A" )
 > result.BRR <- calcMarkerEff( PhenoCol, genotype, phased = TRUE, Model = "BRR", Effect = "A" )
@@ -185,6 +185,7 @@ Because, these quantities are calculated based on the genome information of both
 Basically, the Tot is the result of all effects included, and Add and Dom are the results attributable to additive and dominance effects, respectively. More specifically, Add is the result obtained by setting all dominance effects to be zero, and in the same way, Dom is the result obtained by setting all additive effects to be zero. Because the variance of pedigree distribution in Dom (i.e. Vg) can not be partitioned into maternal and paternal contribution, Vg_s and Vg_p in Dom are always zero. 
 
 <img src="image/Github1.png" width= "400" >  
+Fig1. Decomposition of the variance of progeny distribution. This result can be used to clarify the source of the variance.
 
 #### Visualization and Analysis (Example)
 The estimated selection intensity can be used in several ways to analyse the signature of selection that each cultivar underwent. For instance if we compare the distribution of selection intensity between un-selected individuals and cultivar, we can see what kind of individuals were prefered in the breeding program. Fig2 is the distribution of selection intensity for acidity and brix, and those of breeding population (un-selected individuals) and cultivars were distinguished by different colors. Here we can confirm that low-acidity and high-sugar individuals were selected in the breeding program.  
@@ -194,10 +195,10 @@ Fig2. Distribution of selection intensity for Acidity and Brix in Breeding popul
 
 
 ### <ins>calcSIadd function</ins>
-additive dominance decomposition
+additive dominance decomposition (in prep)
 ### <ins>calcSIcd function</ins>
-choromosome decomposition
+choromosome decomposition (in prep)
 ### <ins>calcSImt function</ins>
-multi trait
+multi trait (in prep)
 
 ## Reference
