@@ -27,7 +27,7 @@ You can install the development version of traceSelection from [GitHub](https://
 # if pak is not installed...
 install.packages("pak")
 
-pak::pak("Soh-Kim/traceSeletion")
+pak::pak("Soh-Kim/traceSelection")
 ```
 
 **install using R package "devtools"**
@@ -35,7 +35,7 @@ pak::pak("Soh-Kim/traceSeletion")
 # if devtools is not installed...
 install.packages("devtools")
 
-devtools::install_github("Soh-Kim/traceSeletion")
+devtools::install_github("Soh-Kim/traceSelection")
 ```
 
 ## Example
